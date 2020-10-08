@@ -73,9 +73,9 @@
             this.textBox2.Location = new System.Drawing.Point(23, 339);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
+            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox2.Size = new System.Drawing.Size(697, 85);
             this.textBox2.TabIndex = 3;
-            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             // 
             // label1
             // 
