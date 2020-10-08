@@ -155,8 +155,13 @@ namespace rec003WaveReading
                 //                byte[] data_RIFF = new byte[4];
                 Array.Copy(origin_data, 0, data_RIFF, 0, 4);  // RIFF copy
                 byte[] tmpbyte = new byte[4];
-                Array.Copy(origin_data, 0, data_RIFF, 0, 4);  // RIFF copy
-
+                Array.Copy(origin_data, 4, tmpbyte, 0, 4);  // data file size copy
+                for(int a = 0; a < 4; a++)
+                {
+                    data_file_size |= tmpbyte[a] << (a * 8);
+                }
+                debug_msg = data_file_size.ToString();
+                debug();
             }
             catch
             {
@@ -168,8 +173,13 @@ namespace rec003WaveReading
 
         public string debug()
         {
+            item mikan = new item("mikan", 1, "c:\\mikan.png", "c:\\mikans.png", new string[] {"小さなミカンを見つけた！" , "体力が１０回復する"});
+            item ringo = new item("ringo", 1, "c:\\ringo.png", "c:\\ringos.png", new string[] { "青いリンゴをみつけた！", "毒状態が治るかもしれない"});
+            string[] a = { "a", "b" };
             return debug_msg;
         }
+
+        
     
     }
 }
@@ -181,3 +191,51 @@ namespace rec003WaveReading
 
         }
 */
+
+
+public class item
+{
+    private string itme_name = "noitem";    // アイテム名
+    private int item_num;                   // アイテムの数
+    private string item_picture_file;       // アイテムの画像
+    private string items_picture_file;      // アイテムが複数時の画像
+    private string[] item_documents;        // アイテムの説明
+
+    public item(string iname, int inum, string ipct, string ispct, string[] idoc)
+    {
+        this.itme_name = iname;
+        this.item_num = inum;
+        this.item_picture_file = ipct;
+        this.items_picture_file = ispct;
+        this.item_documents = idoc;
+    }
+
+    public int getNum()             // アイテムの数をリターンするよ！
+    {
+        return this.item_num;
+    }
+
+    public void setNum(int num)     // アイテムの数をセットするよ！
+    {
+        this.item_num = num;
+    }
+
+    public int itmeNum { get; set; }
+
+
+    public string[] getDoc()        // アイテムの説明を配列で返すよ！
+    {
+        return this.item_documents;
+    }
+
+    public string getPctFilePath()  // アイテムの画像のファイル名を返すよ！
+    {
+        return this.item_picture_file;
+    }
+
+    public string getMltPctFilePath()   // アイテムが複数の時の画像ファイル名を返すよ！
+    {
+        return this.items_picture_file;
+    }
+
+}
