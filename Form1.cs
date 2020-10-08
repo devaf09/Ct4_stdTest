@@ -56,6 +56,7 @@ namespace rec003WaveReading
             if (datas == null)
             {
                 dms("Don't open file.");
+
                 return;
             }
             DataParser dataParser = new DataParser(datas);
