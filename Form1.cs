@@ -98,22 +98,22 @@ namespace rec003WaveReading
         byte[] origin_data;
         byte[] data_RIFF = new byte[4];         // RIFF                         4byte "RIFF"
         int data_file_size;                     // ALL file size                4byte  -> num
-        char[] file_type = new char[4];         // WAVE                         4byte "WAVE"
+        byte[] file_type = new byte[4];         // WAVE                         4byte "WAVE"
 
-        char[] fmt_T;           // fmt Chunk                    4byte "fmt "
-        byte[] fmt_Tbyte;       // fmt Chunk byte 16:linearPCM  4byte 10 00 00 00   <- little endian
-        byte[] fmt_id;          // fmt ID linearPMC:1           2byte 01 00         <- little endian
-        byte[] fmt_channel;     // fmt Channel mono:1 stereo:2  2byte 0? 00         <- little endian
-        byte[] fmt_sample_rete; // fmt Sampling Rete            4byte 44.1kHz : 44100 : 44 AC 00 00  <- little endian
-        byte[] fmt_data_rete;   // fmt Data Rete (Byte/sec)     4byte Stereo 16bit: 44100 * 2 * 2 = 176400
-        byte[] fmt_block_size;  // fmt block size               4byte stereo 16bit: 2*2 = 4 04 00
-        byte[] fmt_sample_bit_num;   // fmt one sample          2byte WAV Format 16bit 10 00
-        byte[] fmt_no_use01;    // non use (premiamu)           2byte 
-        byte[] fmt_no_use02;    // non use                      nouse
-        char[] data_T;          // data CHunk                   4byte "data"
-        byte[] data_max_size;   // data byte num                4byte
+        byte[] fmt_T = new byte[4];           // fmt Chunk                    4byte "fmt "
+        byte[] fmt_Tbyte = new byte[4];       // fmt Chunk byte 16:linearPCM  4byte 10 00 00 00   <- little endian
+        byte[] fmt_id = new byte[2];          // fmt ID linearPMC:1           2byte 01 00         <- little endian
+        byte[] fmt_channel = new byte[2];     // fmt Channel mono:1 stereo:2  2byte 0? 00         <- little endian
+        byte[] fmt_sample_rete = new byte[4]; // fmt Sampling Rete            4byte 44.1kHz : 44100 : 44 AC 00 00  <- little endian
+        byte[] fmt_data_rete = new byte[4];   // fmt Data Rete (Byte/sec)     4byte Stereo 16bit: 44100 * 2 * 2 = 176400
+        byte[] fmt_block_size = new byte[4];  // fmt block size               4byte stereo 16bit: 2*2 = 4 04 00
+        byte[] fmt_sample_bit_num = new byte[2];   // fmt one sample          2byte WAV Format 16bit 10 00
+        byte[] fmt_no_use01 = new byte[2];    // non use (premiamu)           2byte 
+        byte[] fmt_no_use02 = new byte[4];    // non use                      nouse
+        byte[] data_T = new byte[4];          // data CHunk                   4byte "data"
+        byte[] data_max_size = new byte[4];   // data byte num                4byte
         byte[] main_data_byte;  // data strim                   ?byte max data saize
-//test
+                                              //test
         public Func<string, byte[]> Data_Get { get; }
 
         public DataParser()
@@ -153,8 +153,9 @@ namespace rec003WaveReading
                 int data_num = 0;
                 byte test = origin_data[0];
                 debug_msg = origin_data.Length.ToString();
-                //                byte[] data_RIFF = new byte[4];
                 Array.Copy(origin_data, data_num, data_RIFF, 0, 4);  // RIFF copy
+
+
                 byte[] tmpbyte = new byte[4];
                 Array.Copy(origin_data, (data_num += 4), tmpbyte, 0, 4);  // data file size copy
                 for(int a = 0; a < 4; a++)
@@ -162,15 +163,34 @@ namespace rec003WaveReading
                     data_file_size |= tmpbyte[a] << (a * 8);
                 }
                 //                debug_msg = data_file_size.ToString();
-                Array.Copy(origin_data, (data_num += 4), tmpbyte, 0, 4);  // get file tipe "WAVE"
-                for (int a = 0; a < 4; a++)
+
+
+                Array.Copy(origin_data, (data_num += file_type.Length), file_type, 0, file_type.Length);  // get file tipe "WAVE"
+                debug_msg = System.Text.Encoding.ASCII.GetString(file_type);
+
+                debug_msg = null;
+                string[] forintest = { "i", "ro", "ha?" };
+                foreach (string tmpmozi in forintest)
                 {
-//                    file_type[a] = (char)tmpbyte[a];
-                    file_type[a] =  BitConverter.ToChar((byte) , tmpbyte[a]);   //!?
+                    debug_msg += tmpmozi;
                 }
 
+/*                string[] forintest2 = { "ni", "ho", "he?" };
+                foreach (string* tmpmozi2 in &forintest)
+                {
+                    debug_msg += *tmpmozi2;
+                }
 
-                debug_msg = " " + file_type;
+                byte[] foo = { fmt_T, fmt_Tbyte, fmt_id, fmt_channel };
+                foreach (byte[]* hensui in &hennsuuireire)
+                {
+                    debug_msg = (string)hennsuuireire;
+                }*/
+
+
+
+
+
 
             }
             catch
