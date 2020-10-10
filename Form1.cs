@@ -93,13 +93,13 @@ namespace rec003WaveReading
     }
 
     public class DataParser{
-        bool data_set_ok = false;     // error flag
+        bool data_set_ok = false;               // error flag
         string debug_msg;
         byte[] origin_data;
-        byte[] data_RIFF = new byte[4];       // RIFF                         4byte "RIFF"
-        int data_file_size;     // ALL file size                4byte  -> num
+        byte[] data_RIFF = new byte[4];         // RIFF                         4byte "RIFF"
+        int data_file_size;                     // ALL file size                4byte  -> num
+        char[] file_type = new char[4];         // WAVE                         4byte "WAVE"
 
-        char[] file_type;       // WAVE                         4byte "WAVE"
         char[] fmt_T;           // fmt Chunk                    4byte "fmt "
         byte[] fmt_Tbyte;       // fmt Chunk byte 16:linearPCM  4byte 10 00 00 00   <- little endian
         byte[] fmt_id;          // fmt ID linearPMC:1           2byte 01 00         <- little endian
@@ -133,8 +133,6 @@ namespace rec003WaveReading
             try
             {
                 this.origin_data = origin_data;
-
-
             }
             catch
             {
@@ -152,32 +150,38 @@ namespace rec003WaveReading
         {
             try
             {
+                int data_num = 0;
                 byte test = origin_data[0];
                 debug_msg = origin_data.Length.ToString();
                 //                byte[] data_RIFF = new byte[4];
-                Array.Copy(origin_data, 0, data_RIFF, 0, 4);  // RIFF copy
+                Array.Copy(origin_data, data_num, data_RIFF, 0, 4);  // RIFF copy
                 byte[] tmpbyte = new byte[4];
-                Array.Copy(origin_data, 4, tmpbyte, 0, 4);  // data file size copy
+                Array.Copy(origin_data, (data_num += 4), tmpbyte, 0, 4);  // data file size copy
                 for(int a = 0; a < 4; a++)
                 {
                     data_file_size |= tmpbyte[a] << (a * 8);
                 }
-                debug_msg = data_file_size.ToString();
-                debug();
+                //                debug_msg = data_file_size.ToString();
+                Array.Copy(origin_data, (data_num += 4), tmpbyte, 0, 4);  // get file tipe "WAVE"
+                for (int a = 0; a < 4; a++)
+                {
+//                    file_type[a] = (char)tmpbyte[a];
+                    file_type[a] =  BitConverter.ToChar((byte) , tmpbyte[a]);   //!?
+                }
+
+
+                debug_msg = " " + file_type;
+
             }
             catch
             {
                 debug_msg = "error parse.";
-                debug();
             }
 
         }
 
         public string debug()
         {
-            item mikan = new item("mikan", 1, "c:\\mikan.png", "c:\\mikans.png", new string[] {"小さなミカンを見つけた！" , "体力が１０回復する"});
-            item ringo = new item("ringo", 1, "c:\\ringo.png", "c:\\ringos.png", new string[] { "青いリンゴをみつけた！", "毒状態が治るかもしれない"});
-            string[] a = { "a", "b" };
             return debug_msg;
         }
 
@@ -185,14 +189,6 @@ namespace rec003WaveReading
     
     }
 }
-
-/*
-         private void dataParser()
-        {
-            char[] data_RIFF = { (char)data[0], (char)data[1], (char)data[2], (char)data[3] };
-
-        }
-*/
 
 
 public class item
@@ -241,3 +237,9 @@ public class item
     }
 
 }
+
+/*
+            item mikan = new item("mikan", 1, "c:\\mikan.png", "c:\\mikans.png", new string[] {"小さなミカンを見つけた！" , "体力が１０回復する"});
+            item ringo = new item("ringo", 1, "c:\\ringo.png", "c:\\ringos.png", new string[] { "青いリンゴをみつけた！", "毒状態が治るかもしれない"});
+
+ */
