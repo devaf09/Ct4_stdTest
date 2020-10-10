@@ -133,6 +133,7 @@ namespace rec003WaveReading
             try
             {
                 this.origin_data = origin_data;
+
             }
             catch
             {
