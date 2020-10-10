@@ -100,20 +100,20 @@ namespace rec003WaveReading
         int data_file_size;                     // ALL file size                4byte  -> num
         byte[] file_type = new byte[4];         // WAVE                         4byte "WAVE"
 
-        byte[] fmt_T = new byte[4];           // fmt Chunk                    4byte "fmt "
-        byte[] fmt_Tbyte = new byte[4];       // fmt Chunk byte 16:linearPCM  4byte 10 00 00 00   <- little endian
-        byte[] fmt_id = new byte[2];          // fmt ID linearPMC:1           2byte 01 00         <- little endian
-        byte[] fmt_channel = new byte[2];     // fmt Channel mono:1 stereo:2  2byte 0? 00         <- little endian
-        byte[] fmt_sample_rete = new byte[4]; // fmt Sampling Rete            4byte 44.1kHz : 44100 : 44 AC 00 00  <- little endian
-        byte[] fmt_data_rete = new byte[4];   // fmt Data Rete (Byte/sec)     4byte Stereo 16bit: 44100 * 2 * 2 = 176400
-        byte[] fmt_block_size = new byte[4];  // fmt block size               4byte stereo 16bit: 2*2 = 4 04 00
-        byte[] fmt_sample_bit_num = new byte[2];   // fmt one sample          2byte WAV Format 16bit 10 00
-        byte[] fmt_no_use01 = new byte[2];    // non use (premiamu)           2byte 
-        byte[] fmt_no_use02 = new byte[4];    // non use                      nouse
-        byte[] data_T = new byte[4];          // data CHunk                   4byte "data"
-        byte[] data_max_size = new byte[4];   // data byte num                4byte
-        byte[] main_data_byte;  // data strim                   ?byte max data saize
-                                              //test
+        byte[] fmt_T = new byte[4];             // fmt Chunk                    4byte "fmt "
+        byte[] fmt_Tbyte = new byte[4];         // fmt Chunk byte 16:linearPCM  4byte 10 00 00 00   <- little endian
+        byte[] fmt_id = new byte[2];            // fmt ID linearPMC:1           2byte 01 00         <- little endian
+        byte[] fmt_channel = new byte[2];       // fmt Channel mono:1 stereo:2  2byte 0? 00         <- little endian
+        byte[] fmt_sample_rete = new byte[4];   // fmt Sampling Rete            4byte 44.1kHz : 44100 : 44 AC 00 00  <- little endian
+        byte[] fmt_data_rete = new byte[4];     // fmt Data Rete (Byte/sec)     4byte Stereo 16bit: 44100 * 2 * 2 = 176400
+        byte[] fmt_block_size = new byte[4];    // fmt block size               4byte stereo 16bit: 2*2 = 4 04 00
+        byte[] fmt_sample_bit_num = new byte[2];    // fmt one sample          2byte WAV Format 16bit 10 00
+        byte[] fmt_no_use01 = new byte[2];      // non use (premiamu)           2byte 
+        byte[] fmt_no_use02 = new byte[4];      // non use                      nouse
+        byte[] data_T = new byte[4];            // data CHunk                   4byte "data"
+        byte[] data_max_size = new byte[4];     // data byte num                4byte
+        byte[] main_data_byte;                  // data strim                   ?byte max data saize
+
         public Func<string, byte[]> Data_Get { get; }
 
         public DataParser()
@@ -186,12 +186,6 @@ namespace rec003WaveReading
                 {
                     debug_msg = (string)hennsuuireire;
                 }*/
-
-
-
-
-
-
             }
             catch
             {
@@ -199,25 +193,32 @@ namespace rec003WaveReading
             }
 
         }
-
+        #region a
         public string debug()
         {
+//            item mikan = new item("mikan", 1, "c:\\mikan.png", "c:\\mikans.png", new string[] { "小さなミカンを見つけた！", "体力が１０回復する" });
+//            debug_msg = mikan.itme_name;
             return debug_msg;
         }
 
-        
-    
+        #endregion
+
     }
 }
 
 
 public class item
 {
-    private string itme_name = "noitem";    // アイテム名
-    private int item_num;                   // アイテムの数
-    private string item_picture_file;       // アイテムの画像
-    private string items_picture_file;      // アイテムが複数時の画像
-    private string[] item_documents;        // アイテムの説明
+    public string itme_name { get; } = "noitem";    // アイテム名
+    public int item_num { get; set; }               // アイテムの数
+    public string item_picture_file { get;}         // アイテムの画像
+    public string items_picture_file { get;}        // アイテムが複数時の画像
+    private string[] item_documents { get;}         // アイテムの説明
+
+    public item()
+    {
+
+    }
 
     public item(string iname, int inum, string ipct, string ispct, string[] idoc)
     {
@@ -226,34 +227,6 @@ public class item
         this.item_picture_file = ipct;
         this.items_picture_file = ispct;
         this.item_documents = idoc;
-    }
-
-    public int getNum()             // アイテムの数をリターンするよ！
-    {
-        return this.item_num;
-    }
-
-    public void setNum(int num)     // アイテムの数をセットするよ！
-    {
-        this.item_num = num;
-    }
-
-    public int itmeNum { get; set; }
-
-
-    public string[] getDoc()        // アイテムの説明を配列で返すよ！
-    {
-        return this.item_documents;
-    }
-
-    public string getPctFilePath()  // アイテムの画像のファイル名を返すよ！
-    {
-        return this.item_picture_file;
-    }
-
-    public string getMltPctFilePath()   // アイテムが複数の時の画像ファイル名を返すよ！
-    {
-        return this.items_picture_file;
     }
 
 }
